@@ -113,7 +113,7 @@ function App() {
           label="Age"
           onChange={handleChange}
         >
-          {genres.map(genre => {
+          {genres && genres.map(genre => {
             return (
               <MenuItem key={genre.id} value={genre.id}>{genre.name}</MenuItem>
               )
