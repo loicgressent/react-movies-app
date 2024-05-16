@@ -10,7 +10,8 @@ import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import { Link } from "react-router-dom";
-
+import { AuthContext } from './context/MovieContext.jsx'
+import { useContext } from 'react'
 
 function App() {
 
@@ -23,43 +24,18 @@ function App() {
       Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIyYmNmMGYyZWE0YTk4MmIyODlmMmJmM2UzZGUyNDc3ZiIsInN1YiI6IjY2NDM0ZTBkMjJjMzFjZjI0MTZhYjExOSIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.aK3M7Yn74M6gfJsND5y3tTmsxBMlrNacCx7MPUi7Nqo'
     }
   };
-  
+
 
   const [error, setError] = useState(null)
   const [loading, setLoading] = useState(true)
-  const [movies, setMovies] = useState(null)
+  const [movies, setMovies] = useContext(AuthContext)
   const [search, setSearch] = useState(null)
   const [moviesFound, setMoviesFound] = useState(null)
   const [genres, setGenres] = useState(null)
   const [selectedGenre, setSelectedGenre] = useState('all')
   const [filteredMovies, setFilteredMovies] = useState(null)
 
-  const fetchMovies = async () => {
-  
-    try{
-      const response = await axios.get(API_URL, options)
-      setMovies(response.data.results)
-      console.log(response.data.results)
-      if(search) {
-        console.log(movies)
-        const moviesFound = movies.filter(movie => movie.title.toLowerCase().includes(search))
-        setMoviesFound(moviesFound)
-      }
-      if(selectedGenre && selectedGenre !== 'all') {
-        console.log(movies)
-        // const filteredMovies = movies.filter(movie => movie.genre_ids.includes(selectedGenre))
-        // setFilteredMovies(filteredMovies)
-        console.log(filteredMovies)
-      }
-    }
-    catch (err) {
-      console.log(err);
-      setError(err);
-    }
-    finally{
-      setLoading(false);
-    }
-  }
+  // console.log(movies);
 
   const fetchMoviesgenre = async () => {
     try {
@@ -75,7 +51,6 @@ function App() {
   }
 
   useEffect(() => {
-    fetchMovies()
     fetchMoviesgenre()
   }, [])
 
@@ -84,7 +59,6 @@ function App() {
 
   const handleSubmit = (e) => {
     e.preventDefault()
-    fetchMovies()
   }
 
   const handleChange = (e) => {
@@ -94,7 +68,6 @@ function App() {
     }
     setSelectedGenre(e.target.value)
     console.log(selectedGenre)
-    fetchMovies()
   }
 
   return (
@@ -121,15 +94,6 @@ function App() {
             <MenuItem value="all">All</MenuItem>
         </Select>
       <Grid container spacing={5} justifyContent={'center'}>
-        {/* {filteredMovies && filteredMovies.map(movie => {
-          return(
-            <>
-            <Grid item>
-              <MovieCard {...movie}/>
-              </Grid>
-            </>
-          )
-        })} */}
         {moviesFound && moviesFound.map(movie => {
           return(
             <div key={movie.id}>

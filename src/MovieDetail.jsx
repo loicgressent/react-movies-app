@@ -5,7 +5,6 @@ import { useState, useEffect } from "react"
 const MovieDetail = () => {
 
     let { movieId } = useParams()
-    console.log(movieId);
 
     const API_KEY = '2bcf0f2ea4a982b289f2bf3e3de2477f'
     const API_URL = `https://api.themoviedb.org/3/movie/${movieId}`
@@ -26,7 +25,6 @@ const MovieDetail = () => {
         try {
             const response = await axios.get(API_URL, options)
             setMovie(response.data)
-            console.log(response.data.title);
         }
         catch (err) {
             setError(err)
