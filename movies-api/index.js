@@ -6,35 +6,44 @@ import bodyParser from 'body-parser';
 const app = express()
 
 app.use(cors());
-app.use(bodyParser.urlencoded({extended: false}))
+app.use(bodyParser.urlencoded({ extended: false }))
 
-app.listen(3001, () => console.log('Listen to port 3001'))
+app.listen(3001, () => console.log('Listening to port 3001'))
 
 app.get('/', (req, res) => {
     return res.send('welcome !!')
 })
 
 app.get('/movies', (req, res) => {
-    console.log(movies);
+    // console.log(movies);
     return res.send(movies)
 })
 
-app.get('/movies/:id', (req, res)=> {
+app.get('/movies/:id', (req, res) => {
     const id = req.params.id
     const movie = movies.find(movie => movie.id === parseInt(id))
     return res.send(movie)
 })
 
 app.post('/movies', (req, res) => {
-    console.log(req.body);
-    const newMovie = {
-        title: req.body.title,
-        director: req.body.director,
-        release_date: req.body.release_date,
-        id : movies.length + 1,
+    // console.log(req.body);
+    const existingMovies = []
+    movies.map(movie => {
+        existingMovies.push(movie.title)
+    })
+
+    if (existingMovies.includes(req.body.title)) {
+        return res.send('ERROR : This movie already exists')
     }
-    movies.push(newMovie)
-    console.log(movies);
-    res.send(movies)
-    console.log('request sent !');
+    else {
+        const newMovie = {
+            title: req.body.title,
+            director: req.body.director,
+            release_date: req.body.release_date,
+            id: movies.length + 1,
+        }
+        movies.push(newMovie)
+        console.log(`${newMovie.title} has been added successfully !`);
+        return res.send(movies)
+    }
 })
