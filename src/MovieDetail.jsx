@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useParams } from "react-router-dom"
 import { useState, useEffect } from "react"
+import Composant from './Composant.jsx'
 
 const MovieDetail = () => {
 
@@ -23,7 +24,7 @@ const MovieDetail = () => {
 
     const fetchMovie = async () => {
         try {
-            const response = await axios.get(API_URL, options)
+            const response = await axios.get(`http://localhost:3001/movies/${movieId}`)
             setMovie(response.data)
         }
         catch (err) {
@@ -46,7 +47,10 @@ const MovieDetail = () => {
     return (
         <>
             <h1>{movie.title}</h1>
-            <p>{movie.overview}</p>
+            <p>{`Directed by ${movie.director} | Released in ${movie.release_date}`}</p>
+            <p>Vous êtes sur l'API local:3001</p>
+            {/* <p>{movie.overview}</p> */}
+            <Composant/>
         </>
     )
 }

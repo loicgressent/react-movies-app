@@ -9,7 +9,6 @@ import CheckCircleRoundedIcon from '@mui/icons-material/CheckCircleRounded';
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
-import { Link } from "react-router-dom";
 import { AuthContext } from './context/MovieContext.jsx'
 import { useContext } from 'react'
 

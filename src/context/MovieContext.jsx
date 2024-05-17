@@ -21,9 +21,8 @@ export const AuthProvider = (props) => {
     const fetchMovies = async () => {
 
         try {
-            const response = await axios.get(API_URL, options)
-            // console.log(response.data.results);
-            setResponse(response.data.results)
+            const response = await axios.get('http://localhost:3001/movies')
+            setResponse(response.data)
         }
         catch (err) {
             console.log(err);
